@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- App Sandbox (disabled for ScreenCaptureKit + AXUIElement access) -->
+    <!-- ScreenCaptureKit requires the app to NOT be sandboxed, or to have -->
+    <!-- specific temporary exceptions. For development, we disable sandbox. -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+    
+    <!-- Hardened Runtime exceptions needed for screen capture -->
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+</dict>
+</plist>

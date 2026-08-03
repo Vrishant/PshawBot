@@ -1,0 +1,88 @@
+name: LeetHack
+options:
+  bundleIdPrefix: com.leethack
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    PRODUCT_NAME: LeetHack
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: 1
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_USER_SCRIPT_SANDBOXING: false
+
+targets:
+  LeetHack:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    
+    sources:
+      - path: LeetHack
+        excludes:
+          - Resources/Info.plist
+    
+    settings:
+      base:
+        INFOPLIST_FILE: LeetHack/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: LeetHack/Resources/LeetHack.entitlements
+        CODE_SIGN_STYLE: Automatic
+        PRODUCT_BUNDLE_IDENTIFIER: com.leethack.app
+        COMBINE_HIDPI_IMAGES: true
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+        ENABLE_HARDENED_RUNTIME: true
+      configs:
+        Debug:
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          SWIFT_COMPILATION_MODE: wholemodule
+    
+    dependencies: []
+    
+    preBuildScripts: []
+    
+    postBuildScripts: []
+
+  LeetHackTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    
+    sources:
+      - path: LeetHackTests
+    
+    dependencies:
+      - target: LeetHack
+    
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/LeetHack.app/Contents/MacOS/LeetHack"
+
+schemes:
+  LeetHack:
+    build:
+      targets:
+        LeetHack: all
+        LeetHackTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - LeetHackTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug

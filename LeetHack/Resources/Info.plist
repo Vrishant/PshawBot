@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Screen Recording Permission Description -->
+    <key>NSScreenCaptureUsageDescription</key>
+    <string>LeetHack needs screen recording permission to understand and visualise the contents of your display in real time. All processing happens locally on your device.</string>
+    
+    <!-- Accessibility Permission Description (for AXUIElement traversal) -->
+    <key>NSAccessibilityUsageDescription</key>
+    <string>LeetHack uses accessibility data to identify UI elements like buttons, text fields, and navigation panels for richer screen understanding.</string>
+    
+    <!-- App is an agent (no Dock icon by default) -->
+    <!-- Set to false during development to see the Dock icon -->
+    <key>LSUIElement</key>
+    <false/>
+    
+    <!-- Application category -->
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.developer-tools</string>
+    
+    <!-- Bundle display name -->
+    <key>CFBundleDisplayName</key>
+    <string>LeetHack</string>
+    
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    
+    <!-- Minimum system version -->
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+</dict>
+</plist>
