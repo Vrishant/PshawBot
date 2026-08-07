@@ -1,8 +1,8 @@
-name: LeetHack
+name: PshawBot
 options:
-  bundleIdPrefix: com.leethack
+  bundleIdPrefix: com.pshawbot
   deploymentTarget:
-    macOS: "14.0"
+    macOS: "26.0"
   xcodeVersion: "16.0"
   createIntermediateGroups: true
   generateEmptyDirectories: true
@@ -10,30 +10,30 @@ options:
 settings:
   base:
     SWIFT_VERSION: "6.0"
-    MACOSX_DEPLOYMENT_TARGET: "14.0"
-    PRODUCT_NAME: LeetHack
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    PRODUCT_NAME: PshawBot
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: 1
     SWIFT_STRICT_CONCURRENCY: complete
     ENABLE_USER_SCRIPT_SANDBOXING: false
 
 targets:
-  LeetHack:
+  PshawBot:
     type: application
     platform: macOS
-    deploymentTarget: "14.0"
+    deploymentTarget: "26.0"
     
     sources:
-      - path: LeetHack
+      - path: PshawBot
         excludes:
           - Resources/Info.plist
     
     settings:
       base:
-        INFOPLIST_FILE: LeetHack/Resources/Info.plist
-        CODE_SIGN_ENTITLEMENTS: LeetHack/Resources/LeetHack.entitlements
+        INFOPLIST_FILE: PshawBot/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: PshawBot/Resources/PshawBot.entitlements
         CODE_SIGN_STYLE: Automatic
-        PRODUCT_BUNDLE_IDENTIFIER: com.leethack.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.pshawbot.app
         COMBINE_HIDPI_IMAGES: true
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         LD_RUNPATH_SEARCH_PATHS:
@@ -54,34 +54,34 @@ targets:
     
     postBuildScripts: []
 
-  LeetHackTests:
+  PshawBotTests:
     type: bundle.unit-test
     platform: macOS
     deploymentTarget: "14.0"
     
     sources:
-      - path: LeetHackTests
+      - path: PshawBotTests
     
     dependencies:
-      - target: LeetHack
+      - target: PshawBot
     
     settings:
       base:
         BUNDLE_LOADER: "$(TEST_HOST)"
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/LeetHack.app/Contents/MacOS/LeetHack"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/PshawBot.app/Contents/MacOS/PshawBot"
 
 schemes:
-  LeetHack:
+  PshawBot:
     build:
       targets:
-        LeetHack: all
-        LeetHackTests: [test]
+        PshawBot: all
+        PshawBotTests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - LeetHackTests
+        - PshawBotTests
     profile:
       config: Release
     analyze:

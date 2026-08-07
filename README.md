@@ -1,8 +1,8 @@
-# LeetHack
+# PshawBot
 
 **Real-time screen understanding for macOS.**
 
-LeetHack is a macOS desktop application that continuously observes your screen, constructs a semantic understanding of everything visible, and presents an interactive visual overlay showing its interpretation. It is purpose-built to recognize coding environments (like LeetCode), extract syntax-aware code, and provide AI assistance via Gemini.
+PshawBot is a macOS desktop application that continuously observes your screen, constructs a semantic understanding of everything visible, and presents an interactive visual overlay showing its interpretation. It is purpose-built to recognize coding environments (like LeetCode), extract syntax-aware code, and provide AI assistance via Gemini.
 
 ## Requirements
 
@@ -29,15 +29,15 @@ brew install xcodegen
 xcodegen generate
 
 # Build from command line
-xcodebuild -project LeetHack.xcodeproj -scheme LeetHack -configuration Debug build
+xcodebuild -project PshawBot.xcodeproj -scheme PshawBot -configuration Debug build
 
 # Or open in Xcode
-open LeetHack.xcodeproj
+open PshawBot.xcodeproj
 ```
 
 ## Architecture
 
-LeetHack operates as a multi-stage data processing pipeline. It captures raw frames from the screen and progressively adds structural intelligence using a layered signal fusion approach:
+PshawBot operates as a multi-stage data processing pipeline. It captures raw frames from the screen and progressively adds structural intelligence using a layered signal fusion approach:
 
 1. **Capture**: `ScreenCaptureKit` streams desktop frames at high performance.
 2. **Vision & OCR**: Native macOS Vision frameworks (`VNRecognizeTextRequest`) scan the image for UI elements and text.
@@ -51,7 +51,7 @@ LeetHack operates as a multi-stage data processing pipeline. It captures raw fra
 The codebase is organized by domain responsibility. Here is what each file does:
 
 ### `App/` — Entry point and global state
-- `LeetHackApp.swift`: The `@main` entry point for the SwiftUI application.
+- `PshawBotApp.swift`: The `@main` entry point for the SwiftUI application.
 - `AppState.swift`: Global observable state managing the latest captured frames and UI toggles.
 
 ### `ScreenCapture/` — macOS Screen Recording
