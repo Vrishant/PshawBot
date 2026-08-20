@@ -2,13 +2,13 @@
 
 **Real-time screen understanding for macOS.**
 
-PshawBot is a macOS desktop application that continuously observes your screen, constructs a semantic understanding of everything visible, and presents an interactive visual overlay showing its interpretation. It is purpose-built to recognize coding environments (like LeetCode), extract syntax-aware code, and provide AI assistance via Gemini.
+PshawBot is a macOS desktop application that continuously observes your screen, constructs a semantic understanding of everything visible, and presents an interactive visual overlay showing its interpretation. It is purpose-built to recognize coding environments (like LeetCode), extract syntax-aware code, and provide AI assistance via a pluggable `AIService` backend (Apple Intelligence by default).
 
 ## Requirements
 
-- macOS 14.0 (Sonoma) or later
+- macOS 26.0 or later (with Apple Intelligence enabled for on-device AI)
 - Apple Silicon (M1+) recommended
-- Xcode 16.0+
+- Xcode 26.0+
 - Screen Recording permission
 - Accessibility permission (for enhanced UI detection)
 
@@ -24,6 +24,8 @@ brew install xcodegen
 
 ### Generate & Build
 
+The Xcode project is generated from the `project.yml` metadata file. Edit `project.yml` to change targets, settings, or source folders, then regenerate:
+
 ```bash
 # Generate the Xcode project from project.yml
 xcodegen generate
@@ -35,6 +37,8 @@ xcodebuild -project PshawBot.xcodeproj -scheme PshawBot -configuration Debug bui
 open PshawBot.xcodeproj
 ```
 
+> **Note**: `PshawBot.xcodeproj` is a generated artifact — always make structural changes in `project.yml`, then run `xcodegen generate` so the project and the committed `project.pbxproj` stay in sync.
+
 ## Architecture
 
 PshawBot operates as a multi-stage data processing pipeline. It captures raw frames from the screen and progressively adds structural intelligence using a layered signal fusion approach:
@@ -44,7 +48,14 @@ PshawBot operates as a multi-stage data processing pipeline. It captures raw fra
 3. **Accessibility**: `AXUIElement` probes the macOS accessibility tree to extract native application structures.
 4. **Heuristics & Lexing**: Custom detectors group text clusters spatially. For code environments, a `CodeLexer` tracks bracket depths to extract perfect code blocks, filtering out UI noise.
 5. **Semantic Scene Graph**: All signals are fused into a unified hierarchical tree representing the AI's understanding of the screen.
-6. **Services & UI**: The `PipelineCoordinator` orchestrates the flow, updating a real-time SwiftUI `LivePreviewView`. Extracted code is sent to the `GeminiService` for AI analysis.
+6. **Services & UI**: The `PipelineCoordinator` orchestrates the flow, updating a real-time SwiftUI `LivePreviewView`. Extracted code is sent to an `AIService` provider for AI analysis.
+
+## AI Backends
+
+PshawBot ships with a provider-agnostic chat layer (`AIServiceProtocol`) so any AI backend can power the assistant:
+
+- **Apple Intelligence** (default): Uses Apple's `FoundationModels` framework for fully on-device, private analysis. No API key required — just macOS 26 with Apple Intelligence enabled.
+- **Gemini** (optional/legacy): A REST client for Google's Gemini API. Enter your API key in the chat panel (stored locally in `UserDefaults`); no key is baked into the codebase.
 
 ## Project Structure & File Roles
 
@@ -78,6 +89,7 @@ The codebase is organized by domain responsibility. Here is what each file does:
 ### `DeveloperMode/` — Coding Environment Intelligence
 - `CodePanelDetector.swift`: Uses smart vertical clustering to identify the coding editor pane in browsers (like LeetCode), ignoring surrounding UI.
 - `CodeLexer.swift`: A structural parser that extracts complete code blocks from noisy OCR output using bracket-depth tracking from an anchor (e.g., `class Solution`).
+- `TextBlockDetector.swift`: Groups OCR text lines into coherent code blocks for cleaner extraction.
 - `DeveloperModeClassifier.swift`: Determines if a given window is an IDE or coding environment.
 
 ### `Models/` — Core Data Structures
@@ -85,11 +97,13 @@ The codebase is organized by domain responsibility. Here is what each file does:
 
 ### `Services/` — Orchestration and APIs
 - `PipelineCoordinator.swift`: The main loop coordinator. It receives frames, calls the detectors, builds the semantic graph, and extracts code panels.
-- `GeminiService.swift`: Handles API communication with Google's Gemini LLM. Manages chat history, prompts, and streaming responses.
+- `AIServiceProtocol.swift`: The provider-agnostic contract (`ChatMessage`, `AIService`) every AI backend must satisfy.
+- `AppleIntelligenceService.swift`: On-device AI via Apple's `FoundationModels` framework (macOS 26+). Maintains a persistent `LanguageModelSession` with its own transcript.
+- `GeminiService.swift`: Legacy REST client for Google's Gemini API. Manages chat history, prompts, and streaming responses.
 
 ### `UI/` — Interactive Interface
 - `LivePreviewView.swift`: The main visual interface. Renders the screen, draws YOLO-style overlay boxes around detected code, and handles the "Snap" actions.
-- `ChatView.swift`: A sleek slide-out side panel for talking to Gemini, featuring native Markdown rendering and syntax-highlighted code blocks.
+- `ChatView.swift`: A sleek slide-out side panel for talking to the AI backend, featuring native Markdown rendering and syntax-highlighted code blocks.
 - `DebugCaptureView.swift`: A developer view for diagnosing raw OCR and Vision outputs.
 - `AppTheme.swift`: Shared colors and visual styles.
 
