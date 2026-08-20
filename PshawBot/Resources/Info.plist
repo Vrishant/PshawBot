@@ -4,11 +4,11 @@
 <dict>
     <!-- Screen Recording Permission Description -->
     <key>NSScreenCaptureUsageDescription</key>
-    <string>LeetHack needs screen recording permission to understand and visualise the contents of your display in real time. All processing happens locally on your device.</string>
+    <string>PshawBot needs screen recording permission to understand and visualise the contents of your display in real time. All processing happens locally on your device.</string>
     
     <!-- Accessibility Permission Description (for AXUIElement traversal) -->
     <key>NSAccessibilityUsageDescription</key>
-    <string>LeetHack uses accessibility data to identify UI elements like buttons, text fields, and navigation panels for richer screen understanding.</string>
+    <string>PshawBot uses accessibility data to identify UI elements like buttons, text fields, and navigation panels for richer screen understanding.</string>
     
     <!-- App is an agent (no Dock icon by default) -->
     <!-- Set to false during development to see the Dock icon -->
@@ -21,7 +21,7 @@
     
     <!-- Bundle display name -->
     <key>CFBundleDisplayName</key>
-    <string>LeetHack</string>
+    <string>PshawBot</string>
     
     <key>CFBundleIdentifier</key>
     <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
@@ -40,6 +40,6 @@
     
     <!-- Minimum system version -->
     <key>LSMinimumSystemVersion</key>
-    <string>14.0</string>
+    <string>26.0</string>
 </dict>
 </plist>
